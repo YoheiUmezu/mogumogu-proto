@@ -36,6 +36,19 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <tr v-for="(product, index) in products" v-bind:key="index">
+                      <td>
+                        {{ product.name }}
+                      </td>
+                      <td>
+                        {{ product.price }}
+                      </td>
+                      <td>
+                        <button class="btn btn-primary">Edit</button>
+                        <button class="btn btn-danger" @click="deleteProduct(product)">Delete</button>
+                      </td>
+                     
+                    </tr>
                   </tbody>
                 </table>
             </div>
@@ -144,7 +157,26 @@ export default {
     },
     
     deleteProduct(doc){
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
 
+          // console.log(doc['.key']);
+          this.$firestore.products.doc(doc['.key']).delete()
+
+            Toast.fire({
+              icon: 'success',
+              title: 'Deleted successfully'
+            })
+          }
+      　})
     },
 
     readData() {
@@ -153,6 +185,7 @@ export default {
 
     addProduct() {
         this.$firestore.products.add(this.product)
+        $('#product').modal('hide') 
     }
   },
   created() {
