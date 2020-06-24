@@ -44,7 +44,7 @@
                         {{ product.price }}
                       </td>
                       <td>
-                        <button class="btn btn-primary">Edit</button>
+                        <button class="btn btn-primary" @click="editProduct(product)">Edit</button>
                         <button class="btn btn-danger" @click="deleteProduct(product)">Delete</button>
                       </td>
                      
@@ -101,7 +101,8 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button @click="addProduct()" type="button" class="btn btn-primary">Save changes</button>
+              <button @click="addProduct()" type="button" class="btn btn-primary" v-if="modal == 'new'">Save changes</button>
+              <button @click="updateProduct()" type="button" class="btn btn-primary" v-if="modal == 'edit'">Apply changes</button>
             </div>
           </div>
         </div>
@@ -132,7 +133,8 @@ export default {
         tag: null,
         image: null
       },
-      activeItem: null
+      activeItem: null,
+      modal: null
     }
   },
 
@@ -146,14 +148,24 @@ export default {
 
     },
     addNew () {
+        this.modal = 'new'
         $('#product').modal('show') 
     },
     updateProduct() {
-
+      if(id) {
+        this.$firestore.products.doc(this.product.id).update(this.product);
+      }
+          Toast.fire({
+            type: 'success',
+            title: 'Updated  successfully'
+          })
+        $('#product').modal('hide');
     },
 
     editProduct(product) {
-  
+        this.modal = 'edit';
+        this.product = product;
+        $('#product').modal('show');
     },
     
     deleteProduct(doc){
@@ -184,8 +196,12 @@ export default {
     },
 
     addProduct() {
-        this.$firestore.products.add(this.product)
-        $('#product').modal('hide') 
+        this.$firestore.products.add(this.product);
+         Toast.fire({
+              icon: 'success',
+              title: 'Product created successfully'
+        });
+        $('#product').modal('hide');
     }
   },
   created() {
