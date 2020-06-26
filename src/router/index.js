@@ -5,6 +5,7 @@ import Admin from '../views/Admin.vue'
 import Overview from '../views/Overview.vue'
 import Products from '../views/Products.vue'
 import Orders from '../views/Orders.vue'
+import Profile from '../views/Profile.vue'
 import { fb } from '../firebase'
 
 Vue.use(VueRouter)
@@ -35,7 +36,12 @@ const routes = [
         path: 'orders',
         name: 'Orders',
         component: Orders
-      }
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: Profile
+      },
     ]
   },
   {
