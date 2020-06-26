@@ -1,4 +1,3 @@
-  
 <template>
   <div class="products">
       <div class="container">
@@ -13,7 +12,7 @@
                  </p>
               </div>
               <div class="col-md-5">
-                  <img src="../img/svg/Profile.svg" width="300" alt="" class="img-fluid">
+                  <img src="/img/svg/profile.svg" width="300" alt="" class="img-fluid">
               </div>
             </div>
           </div>
@@ -41,7 +40,7 @@
                         
                         <div class="col-md-6">
                           <div class="form-group">
-                            <input type="text" name="" v-model="profile.fullName" placeholder="Full name" class="form-control">
+                            <input type="text" name="" v-model="profile.name" placeholder="Full name" class="form-control">
                           </div>
                         </div>
 
@@ -57,7 +56,7 @@
                           </div>
                         </div>
 
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                           <div class="form-group">
                             <input type="text"  v-model="profile.postCode" placeholder="Postcode" class="form-control">
                           </div>
@@ -65,7 +64,12 @@
 
                         <div class="col-md-4">
                           <div class="form-group">
-                              <input type="submit" value="Save Changes" class="btn btn-primary w-100">
+                              <input type="submit" @click="updateProfile" value="Save Changes" class="btn btn-primary w-100">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                              <input type="button" @click="resetPassword" value="Resset password email." class="btn btn-success w-100">
                           </div>
                         </div>
 
@@ -131,7 +135,7 @@
 import { VueEditor } from "vue2-editor";
 import { fb, db} from '../firebase';
 export default {
-  name: "Products",
+  name: "profile",
   components: {
     VueEditor
   },
@@ -141,7 +145,7 @@ export default {
   data(){
     return {
         profile: {
-          fullName:null,
+          name:null,
           phone:null,
           address:null,
           postcode:null
@@ -158,45 +162,30 @@ export default {
     }
   },
   firestore(){
+      const user = fb.auth().currentUser;
       return {
+        profile: db.collection('profiles').doc(user.uid),
       }
   },
   methods:{
-    deleteImage(img,index){
-    
-    },
-    addTag(){
-     
-    },
-    uploadImage(e){
-    },
-    reset(){
-    
-    },
-    addNew(){
-       
-    },
-    updateProduct(){
-       
-    },
-    editProduct(){
-     
-    },
-    deleteProduct(){
-        
-    },
-    readData(){
-      
-     
-    },
-    addProduct(){
-      
-    
-    }
-  
+      resetPassword () {
+            const auth = fb.auth();
+
+            auth.sendPasswordResetEmail(auth.currentUser.email).then(() => {
+                 Toast.fire({
+                    type: 'success',
+                    title: 'Email sent.'
+                })
+            }).catch((error) => {
+                console.log('error sent.')
+            });
+      },
+      updateProfile(){
+          this.$firestore.profile.update(this.profile);
+      },
+      uploadImage(){}
   },
   created(){
-  
   }
 };
 </script>

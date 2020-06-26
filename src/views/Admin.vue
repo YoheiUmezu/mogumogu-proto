@@ -22,7 +22,7 @@
                         <span class="user-name">Jhon
                             <strong>Smith</strong>
                         </span>
-                        <span class="user-role">Administrator</span>
+                        <span class="user-role">{{ email }}</span>
                         <span class="user-status">
                             <i class="fa fa-circle"></i>
                             <span>Online</span>
@@ -99,6 +99,12 @@ import Hero from '@/components/Hero.vue'
 import { fb } from '../firebase'
 export default {
   name: 'admin',
+  data () {
+       return {
+           name: null,
+           email: null
+       }
+  },
   components: {
     Hero
   },
@@ -115,6 +121,11 @@ export default {
             console.log(err);
         });
     }
+  },
+  //get current user name
+  created () {
+      var user = fb.auth().currentUser;
+      this.email = user.email;
   }
 }
 </script>
