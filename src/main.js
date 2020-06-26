@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import jQuery from 'jquery';
+import VueCarousel from 'vue-carousel';
 import {fb}   from './firebase'
 import VueFirestore from 'vue-firestore'
 require('firebase/firestore')
@@ -38,6 +39,7 @@ window.Toast = Toast;
 
 
 Vue.component('Navbar', require('./components/Navbar.vue').default);
+Vue.component('products-list', require('./sections/ProductList.vue').default);
 
 Vue.config.productionTip = false;
 
@@ -54,3 +56,5 @@ fb.auth().onAuthStateChanged(function(user) {
   }
 
 });
+
+Vue.use(VueCarousel);
