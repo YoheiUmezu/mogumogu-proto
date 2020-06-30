@@ -16,6 +16,7 @@
                       <img :src="item.productImage" width="80px" class="align-self-center mr-3" alt="">
                       <div class="media-body">
                         <h5 class="mt-0">{{item.productName}}</h5>
+                          <span class="float-right" @click="$store.commit('removeFromCart', item)">X</span>
                         <p class="mt-0">{{item.productPrice | currency}}</p>
                         <p class="mt-0">Quantity: {{ item.productQuantity }}</p>
                       </div>
@@ -25,7 +26,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>
-                <router-link to="/checkout" type="button" class="btn btn-primary">Checkout</router-link>
+                <button to="/checkout" type="button" class="btn btn-primary" @click="checkout">Checkout</button>
               </div>
             </div>
           </div>
@@ -38,6 +39,12 @@ export default {
   name: 'MiniCart',
   props: {
     msg: String
+  },
+  methods: {
+      checkout () {
+          $('#miniCart').modal('hide');
+          this.$router.push('/checkout')
+      }
   }
 }
 </script>
