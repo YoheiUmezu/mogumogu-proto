@@ -3,8 +3,10 @@ import App from "./App.vue";
 import router from "./router";
 import jQuery from 'jquery';
 import VueCarousel from 'vue-carousel';
-import {fb}   from './firebase'
+import {fb} from './firebase'
 import VueFirestore from 'vue-firestore'
+import Vue2Filters from 'vue2-filters'
+import store from './store'
 require('firebase/firestore')
 
 
@@ -37,8 +39,11 @@ const Toast = Swal.mixin({
 
 window.Toast = Toast;
 
+Vue.use(Vue2Filters)  
+
 
 Vue.component('Navbar', require('./components/Navbar.vue').default);
+Vue.component('add-to-cart', require('./components/AddToCart.vue').default);
 Vue.component('products-list', require('./sections/ProductList.vue').default);
 
 Vue.config.productionTip = false;
@@ -50,6 +55,7 @@ fb.auth().onAuthStateChanged(function(user) {
   if(!app){
     new Vue({
       router,
+      store,
       render: h => h(App)
     }).$mount("#app");
     
