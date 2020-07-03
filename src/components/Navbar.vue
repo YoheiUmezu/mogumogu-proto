@@ -15,34 +15,42 @@
             <li class="nav-item">
               <router-link to="/products" class="nav-link" href="#">Products</router-link>
             </li>
+
             <li class="nav-item">
               <router-link to="/about" class="nav-link" href="#">About</router-link>
             </li>
+          
           </ul>
           <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#login">Get Start</a>
-            <a class="btn btn-outline-info my-2 my-sm-0" data-toggle="modal" data-target="#miniCart">Cart</a>
+            <a class="btn btn-outline-info border-0 mx-2 my-2 my-sm-0" data-toggle="modal" data-target="#miniCart">
+              <i class="fas fa-cart-plus"></i>
+            </a>
           </form>
         </div>
+
      </div>
+
 </nav>
+    
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Navbar',
+  name: "Navbar",
   props: {
     msg: String
-  }
-  // components: {  }
-}
+  },
+  components:{}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-  @media (min-width: 992px) {
+  @media (min-width: 992px) { 
+    
     .navbar.custom-nav{
       padding-top:16px;
       padding-bottom:16px;
